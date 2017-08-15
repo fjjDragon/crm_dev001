@@ -13,6 +13,8 @@ public class Module extends BaseModel {
     private Integer orders; // 排序
     private String treePath; // 层级关系,1,2,
     private String optValue; // 权限值
+    
+    private Module parent; // 父级模块
 
     public String getOptValue() {
         return optValue;
@@ -77,5 +79,13 @@ public class Module extends BaseModel {
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
+
+	public Module getParent() {
+		return parent;
+	}
+
+	public void setParent(Module parent) {
+		this.parent = parent;
+	}
 
 }
