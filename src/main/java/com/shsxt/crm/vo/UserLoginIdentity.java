@@ -3,7 +3,7 @@ package com.shsxt.crm.vo;
 import java.io.Serializable;
 
 /**
- * Created by Tony on 2016/8/22.
+ * Created by fjj on 2017/8/13.
  */
 @SuppressWarnings("serial")
 public class UserLoginIdentity implements Serializable {
