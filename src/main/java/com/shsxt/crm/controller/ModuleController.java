@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +53,14 @@ public class ModuleController extends BaseController {
     @ResponseBody
     public ResultInfo delete(String ids){
         moduleService.delete(ids);
-        return success("删除成功")；
+        return success("删除成功");
     }
+    @RequestMapping("find_module_by_grade")
+    @ResponseBody
+    public List<Module> findModuleByGrade(Integer grade){
+        List<Module> result = moduleService.findModuleByGrade(grade);
+        return result;
+    }
+
 
 }

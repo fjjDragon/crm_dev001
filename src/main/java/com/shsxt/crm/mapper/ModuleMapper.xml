@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shsxt.crm.dao.ModuleDao">
 
+
     <sql id="Module_Columns">
         id, module_name, module_style, url, parent_id, grade, orders, tree_path,
         create_date, update_date, is_valid, opt_value
@@ -36,8 +37,8 @@
 
     <select id="findById" resultType="module">
         select <include refid="Module_Columns" /> from t_module
-        <where>
-            is_valid = 1 and id = #{id}
+        <where>id = #{id}
+            is_valid = 1 and
         </where>
     </select>
     
