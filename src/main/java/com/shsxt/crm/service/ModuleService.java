@@ -38,7 +38,7 @@ public class ModuleService {
         PageBounds pageBounds = query.buildPageBounds();
 
         // 直接调用dao的查询方法
-        PageList<Module> modules = moduleDao.selectForPage(pageBounds);
+        PageList<Module> modules = moduleDao.selectParentName(pageBounds);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", modules);
         result.put("total", modules.getPaginator().getTotalCount());
@@ -82,6 +82,7 @@ public class ModuleService {
      * @param module
      */
     public void update(Module module) {
+
         // 基本参数验证
         Integer id = module.getId();
         AssertUtil.intIsNotEmpty(id, "请选择记录进行修改");
@@ -154,8 +155,11 @@ public class ModuleService {
      * @return
      */
     public List<Module> findModuleByGrade(Integer grade) {
-
-        return null;
+        if (grade == null || grade < 0) {
+            throw new ParamException("请选择层级");
+        }
+        List<Module> modules = moduleDao.findByGrade(grade);
+        return modules;
     }
 
 
