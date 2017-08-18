@@ -46,6 +46,8 @@
        
     </mvc:interceptors>-->
 
+	<aop:aspectj-autoproxy/>
+
 	<!-- 视图配置 --> 
 	<bean id="freemarkerConfig" 
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"> 

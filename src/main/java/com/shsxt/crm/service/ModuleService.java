@@ -8,6 +8,7 @@ import com.shsxt.crm.dao.ModuleDao;
 import com.shsxt.crm.exception.ParamException;
 import com.shsxt.crm.model.Module;
 import com.shsxt.crm.util.AssertUtil;
+import com.shsxt.crm.vo.ModuleVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,6 @@ public class ModuleService {
          * 添加
          * @param module
          */
-
     public void add(Module module) {
         checkParams(module);
 
@@ -128,6 +128,49 @@ public class ModuleService {
         moduleDao.deleteBatch(ids);
     }
 
+
+    /**
+     * 获取某一级的菜单
+     *
+     * @param grade
+     * @return
+     */
+    public List<Module> findModuleByGrade(Integer grade) {
+        if (grade == null || grade < 0) {
+            throw new ParamException("请选择层级");
+        }
+        List<Module> modules = moduleDao.findByGrade(grade);
+        return modules;
+    }
+
+    /**
+     * 查询所有的模块
+     * @param roleId
+     * @return
+     */
+    public List<ModuleVO> findAll(Integer roleId) {
+        List<ModuleVO> modules = moduleDao.findAll();
+        List<Integer> roleModuleIds = moduleDao.findByRoleId(roleId);
+        if (roleModuleIds == null || roleModuleIds.size() < 1) {
+            return modules;
+        }
+        for (ModuleVO moduleVO : modules) {
+            if (!roleModuleIds.contains(moduleVO.getId())) {
+                continue;
+            }
+            moduleVO.setChecked(true);
+        }
+        return modules;
+    }
+
+    public Module findById(Integer id) {
+        AssertUtil.intIsNotEmpty(id, "请选择模块");
+        Module module = moduleDao.findById(id);
+        AssertUtil.notNull(module, "此模块不存在，请重新选择");
+        return module;
+    }
+
+
     /**
      * 基本参数验证
      *
@@ -147,21 +190,6 @@ public class ModuleService {
             throw new ParamException("请选择层级关系");
         }
     }
-
-    /**
-     * 获取某一级的菜单
-     *
-     * @param grade
-     * @return
-     */
-    public List<Module> findModuleByGrade(Integer grade) {
-        if (grade == null || grade < 0) {
-            throw new ParamException("请选择层级");
-        }
-        List<Module> modules = moduleDao.findByGrade(grade);
-        return modules;
-    }
-
 
     /**
      * 构建treePath
@@ -187,6 +215,7 @@ public class ModuleService {
         }
         return treePath;
     }
+
 
 }
 
